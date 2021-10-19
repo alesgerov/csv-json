@@ -33,5 +33,5 @@ build/
 .vscode/
 notes
 data.json
-dummy.csv
+files/dummy.csv
 todos.txt
