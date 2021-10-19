@@ -47,8 +47,8 @@ public class CsvService implements CsvRepository {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmm");
             LocalDateTime time = LocalDateTime.now();
             String name = time.format(formatter);
-            String successPath = config.getSuccess() + name;
-            String errorPath = config.getError() + name;
+            String successPath = config.getSuccess() + name+".json";
+            String errorPath = config.getError() + name+".json";
             fileDTO.setUploadDate(time);
             if (!success.isEmpty()) {
                 utilService.writeJson(success, successPath, name);
