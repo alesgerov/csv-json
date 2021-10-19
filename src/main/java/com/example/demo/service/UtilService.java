@@ -27,6 +27,15 @@ public class UtilService {
 
     private final AlbumService albumService;
     private final ValidatorUtils validationService;
+    private boolean switchedOn=false;
+
+    public boolean isSwitchedOn() {
+        return switchedOn;
+    }
+
+    public void setSwitchedOn(boolean switchedOn) {
+        this.switchedOn = switchedOn;
+    }
 
     public UtilService(AlbumService albumService, ValidatorUtils validationService) {
         this.albumService = albumService;
@@ -69,6 +78,7 @@ public class UtilService {
         resultMap.put("error",errors);
         return resultMap;
     }
+
 
 
     public   void writeJson(List<AlbumDTO> data,String folder,String  name) throws IOException {
