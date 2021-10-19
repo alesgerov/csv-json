@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.config.PathConfig;
 import com.example.demo.exception.JsonToListException;
 import com.example.demo.model.AlbumDTO;
 import com.example.demo.model.LogFileDTO;
@@ -17,10 +18,12 @@ import java.util.Map;
 public class CsvService implements CsvRepository {
     private final UtilService utilService;
     private final FileTableService fileService;
+    private final PathConfig config;
 
-    public CsvService(UtilService utilService, FileTableService fileService) {
+    public CsvService(UtilService utilService, FileTableService fileService, PathConfig config) {
         this.utilService = utilService;
         this.fileService = fileService;
+        this.config = config;
     }
 
     @Override
@@ -37,16 +40,15 @@ public class CsvService implements CsvRepository {
 
     public void utilForScheduling() {
         try {
-            File file = new File("D:\\Projects\\Java\\demo3\\files\\dummy.csv");
-            //TODO or integration with sap
+            File file = new File(config.getFile()+"dummy.csv");
             List<AlbumDTO> success = csvToJson(file).get("success");
             List<AlbumDTO> errors = csvToJson(file).get("error");
             LogFileDTO fileDTO=new LogFileDTO();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmm");
             LocalDateTime time = LocalDateTime.now();
             String name = time.format(formatter);
-            String successPath = "D:\\Projects\\Java\\demo3\\success\\" + name;
-            String errorPath = "D:\\Projects\\Java\\demo3\\errors\\" + name;
+            String successPath = config.getSuccess() + name;
+            String errorPath = config.getError() + name;
             fileDTO.setUploadDate(time);
             if (!success.isEmpty()) {
                 utilService.writeJson(success, successPath, name);
