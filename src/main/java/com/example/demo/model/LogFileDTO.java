@@ -12,6 +12,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class LogFileDTO {
     private String uploadedFileName;
-    private String  errorFileName;
+    private String errorFileName;
     private LocalDateTime uploadDate;
 }

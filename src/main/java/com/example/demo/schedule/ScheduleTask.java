@@ -18,7 +18,7 @@ public class ScheduleTask {
         this.utilService = utilService;
     }
 
-    @Scheduled(fixedRate = 2*60000)
+    @Scheduled(fixedRate = 2 * 60000)
     public void addToDb() throws IOException {
         if (utilService.isSwitchedOn()) service.utilForScheduling();
     }

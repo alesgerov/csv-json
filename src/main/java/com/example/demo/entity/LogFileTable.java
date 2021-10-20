@@ -22,6 +22,6 @@ public class LogFileTable {
     )
     private long id;
     private String uploadedFileName;
-    private String  errorFileName;
+    private String errorFileName;
     private LocalDateTime uploadDate;
 }

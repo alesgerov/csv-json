@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.config.PathConfig;
 import com.example.demo.exception.JsonToListException;
+import com.example.demo.exporter.ExcelExporter;
 import com.example.demo.model.AlbumDTO;
 import com.example.demo.model.LogFileDTO;
 import com.example.demo.repository.CsvRepository;
@@ -40,22 +41,24 @@ public class CsvService implements CsvRepository {
 
     public void utilForScheduling() {
         try {
-            File file = new File(config.getFile()+"dummy.csv");
+            File file = new File(config.getFile() + "dummy.csv");
             List<AlbumDTO> success = csvToJson(file).get("success");
             List<AlbumDTO> errors = csvToJson(file).get("error");
-            LogFileDTO fileDTO=new LogFileDTO();
+            LogFileDTO fileDTO = new LogFileDTO();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmm");
             LocalDateTime time = LocalDateTime.now();
             String name = time.format(formatter);
-            String successPath = config.getSuccess() + name+".json";
-            String errorPath = config.getError() + name+".json";
+            String successPath = config.getSuccess() + name + ".xls";
+            String errorPath = config.getError() + name + ".xls";
             fileDTO.setUploadDate(time);
             if (!success.isEmpty()) {
-                utilService.writeJson(success, successPath, name);
+//                utilService.writeJson(success, successPath, name);
+                ExcelExporter.exportToExcel(success, successPath);
                 fileDTO.setUploadedFileName(successPath);
             }
             if (!errors.isEmpty()) {
-                utilService.writeJson(errors, errorPath, name);
+//                utilService.writeJson(errors, errorPath, name);
+                ExcelExporter.exportToExcel(errors, errorPath);
                 fileDTO.setErrorFileName(errorPath);
             }
             fileService.saveFile(fileDTO);
